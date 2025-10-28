@@ -15,6 +15,8 @@ start:
 build:
 	docker compose -f ./srcs/docker-compose.yml build --no-cache
 
+rebuild: down build up
+
 status:
 	docker ps
 
