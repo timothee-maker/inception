@@ -17,4 +17,5 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 COPY conf/auto_config.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 WORKDIR /var/www/html
+EXPOSE 9000
 ENTRYPOINT ["bash", "/entrypoint.sh"]

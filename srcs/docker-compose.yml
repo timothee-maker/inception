@@ -44,16 +44,15 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/tnolent/data/wordpress
+      device: /home/tnolent/data/wp_files
       o: bind
 
   mariadb_data:
     driver: local
     driver_opts:
       type: none
-      device: /home/tnolent/data/mariadb
+      device: /home/tnolent/data/mariadb_data
       o: bind
-
 
 networks:
   inception:
