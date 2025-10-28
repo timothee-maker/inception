@@ -3,6 +3,13 @@
 # Attendre que MariaDB soit prêt
 sleep 10
 
+# Vérifier MariaDB
+until mysqladmin ping -h mariadb -u"$SQL_USER" -p"$SQL_PASSWORD" --silent; do
+    echo "MariaDB is unavailable - sleeping"
+    sleep 3
+done
+
+
 # Télécharger WordPress si nécessaire
 if [ ! -f /var/www/html/wp-config.php ]; then
     cd /var/www/html
@@ -20,6 +27,7 @@ if [ ! -f /var/www/html/wp-config.php ]; then
         --admin_user="$WP_ADMIN_USER" \
         --admin_password="$WP_ADMIN_PASS" \
         --admin_email="$WP_ADMIN_EMAIL"
+        --locale=fr_FR
     
     wp user create "$WP_USER" "$WP_USER_EMAIL" \
         --role=author \

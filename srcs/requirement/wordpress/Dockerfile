@@ -3,6 +3,14 @@ FROM debian:bookworm
 RUN apt update && apt upgrade -y && \
     apt install -y \
     php8.2 \
+    php8.2-fpm \
+    php8.2-mysql \
+    php8.2-cli \
+    php8.2-curl \
+    php8.2-gd \
+    php8.2-mbstring \
+    php8.2-xml \
+    php8.2-zip \
     wget \
     curl \
     mariadb-client \
@@ -23,9 +31,9 @@ RUN mkdir -p /var/www/html /run/php && \
 
 WORKDIR /var/www/html
 
-COPY conf/auto_config.sh /entrypoint.sh
+COPY tools/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 9000
-
+    
 CMD ["/entrypoint.sh"]

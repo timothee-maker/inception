@@ -1,19 +1,20 @@
+COMPOSE = docker compose -f ./srcs/docker-compose.yml
 all: up
 
 up:
-	docker compose -f ./srcs/docker-compose.yml up -d
+	$(COMPOSE) up -d
 
 down:
-	docker compose -f ./srcs/docker-compose.yml down
+	$(COMPOSE) down
 
 stop:
-	docker compose -f ./srcs/docker-compose.yml stop
+	$(COMPOSE) stop
 
 start:
-	docker compose -f ./srcs/docker-compose.yml start
+	$(COMPOSE) start
 
 build:
-	docker compose -f ./srcs/docker-compose.yml build --no-cache
+	$(COMPOSE) build --no-cache
 
 rebuild: down build up
 
@@ -21,6 +22,7 @@ status:
 	docker ps
 
 fclean:
+	$(COMPOSE) down -v
 	docker system prune -af --volumes
 
 re: fclean all
