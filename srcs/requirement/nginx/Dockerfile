@@ -12,6 +12,7 @@ RUN openssl req -x509 -nodes \
     -keyout /etc/nginx/ssl/inception.key \
     -subj "/C=FR/ST=IDF/L=Paris/O=42/CN=tnolent.42.fr/UID=tnolent"
 RUN mkdir -p /var/run/nginx
+COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 RUN chmod 755 /var/www/html
 RUN chown -R www-data:www-data /var/www/html
