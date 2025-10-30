@@ -2,7 +2,6 @@ services:
   nginx:
     build: ./requirement/nginx
     container_name: nginx
-    image: nginx:inception
     ports:
       - "443:443"
     restart: always
@@ -16,7 +15,6 @@ services:
   wordpress:
     build: ./requirement/wordpress
     container_name: wordpress
-    image: wordpress:inception
     restart: always
     volumes:
       - wp_files:/var/www/html
@@ -30,7 +28,6 @@ services:
   mariadb:
     build: ./requirement/mariadb/
     container_name: mariadb
-    image: mariadb:inception
     restart: always
     volumes:
       - mariadb_data:/var/lib/mysql
