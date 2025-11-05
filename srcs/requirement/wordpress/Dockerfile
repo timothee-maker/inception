@@ -15,7 +15,7 @@ RUN wget https://fr.wordpress.org/wordpress-6.8.2-fr_FR.tar.gz -P /var/www && \
     tar -xzf wordpress-6.8.2-fr_FR.tar.gz && \
     rm wordpress-6.8.2-fr_FR.tar.gz
 
-RUN chow -R root:root /var/www/wordpress
+RUN chown -R root:root /var/www/wordpress
 RUN chown -R www-data:www-data /var/www/html
 
 RUN sed -i 's|^listen = .*|listen = 9000|' /etc/php/*/fpm/pool.d/www.conf
