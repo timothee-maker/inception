@@ -1,37 +1,32 @@
 FROM debian:bookworm
 
-RUN apt update && apt upgrade -y && \
-    apt install -y \
-    php \
+RUN apt update && apt install -y \
+    wget \
+    php8.2 \
     php-fpm \
     php-mysql \
-    php-cli \
-    php-curl \
-    php-gd \
-    php-mbstring \
-    php-xml \
-    php-zip \
-    wget \
     curl \
-    mariadb-client \
-    && rm -rf /var/lib/apt/lists/*
+    bash && rm -rf /var/lib/apt/lists/*
 
-# Installer le CLI de wordpress
+RUN mkdir -p /run/php /var/www/html
+
+RUN wget https://fr.wordpress.org/wordpress-6.8.2-fr_FR.tar.gz -P /var/www && \
+    cd /var/www && \
+    tar -xzf wordpress-6.8.2-fr_FR.tar.gz && \
+    rm wordpress-6.8.2-fr_FR.tar.gz
+
+RUN chow -R root:root /var/www/wordpress
+RUN chown -R www-data:www-data /var/www/html
+
+RUN sed -i 's|^listen = .*|listen = 9000|' /etc/php/*/fpm/pool.d/www.conf
+
+RUN chown -R www-data:www-data /var/www/html
+
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp
 
-# Configurer PHP-FPM pour écouter sur 9000
-RUN sed -i 's|listen = /run/php/php-fpm.sock|listen = 9000|' /etc/php//fpm/pool.d/www.conf && \
-    sed -i 's/;clear_env = no/clear_env = no/' /etc/php//fpm/pool.d/www.conf
-
-RUN mkdir -p /var/www/html /run/php && \
-    chown -R www-data:www-data /var/www/html /run/php
-
-WORKDIR /var/www/html
-
 COPY tools/entrypoint.sh /entrypoint.sh
-
 RUN chmod +x /entrypoint.sh
-    
+
 CMD ["/entrypoint.sh"]
