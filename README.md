@@ -6,7 +6,7 @@ The goal of the project is to display a website that which uses a nginx server a
 All of that by running containners created from images themselves created by Dockerfiles.
 
 To make this project work on your computer, I suggest you to create a .env file containing thoses variables :
-
+```
 /************.ENV FILE***********\
 #DATABASE
 
@@ -27,5 +27,5 @@ WP_USER2_LOGIN=user2
 WP_USER2_EMAIL=user2@gmail.com
 WP_USER2_PASSWORD=user2_pasword
 /********************************\
-
+```
 Also, make sure to change the redirection localhost located in /etc/hosts/ next to 127.0.0.1 to login.42.fr
