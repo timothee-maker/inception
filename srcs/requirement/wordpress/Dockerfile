@@ -1,12 +1,8 @@
 FROM debian:bookworm
 
 RUN apt update && apt install -y \
-    wget \
-    php8.2 \
-    php-fpm \
-    php-mysql \
-    curl \
-    bash && rm -rf /var/lib/apt/lists/*
+    wget php8.2 php-fpm php-mysql curl bash && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /run/php /var/www/html
 
@@ -27,6 +23,7 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     mv wp-cli.phar /usr/local/bin/wp
 
 COPY tools/entrypoint.sh /entrypoint.sh
+
 RUN chmod +x /entrypoint.sh
 
 CMD ["/entrypoint.sh"]
