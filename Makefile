@@ -7,7 +7,7 @@ up:
 	$(COMPOSE) up -d
 
 down:
-	$(COMPOSE) down
+	$(COMPOSE) down --rmi all
 
 stop:
 	$(COMPOSE) stop
@@ -18,7 +18,7 @@ start:
 build:
 	$(COMPOSE) build --no-cache
 
-rebuild: down build up
+rebuild: down up
 
 status:
 	docker ps

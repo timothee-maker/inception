@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# Attendre que MariaDB soit prêt
 sleep 10
+echo "=== Debut de l'initialisation de WordPress ==="
+
+echo "En attente MariaDB..."
 
 # Vérifier MariaDB
 until mysqladmin ping -h mariadb -u"$SQL_USER" -p"$SQL_PASSWORD" --silent; do
@@ -9,10 +11,18 @@ until mysqladmin ping -h mariadb -u"$SQL_USER" -p"$SQL_PASSWORD" --silent; do
     sleep 3
 done
 
-cd /var/www/wordpress
-# Télécharger WordPress si nécessairecd /var/www/wordpress
+echo "✅ MariaDB est pret"
 
-if [ ! -f /var/www/wordpress/wp-config.php ]; then    
+cd /var/www/html
+
+# Télécharger WordPress avec WP-CLI si pas déjà présent
+if [ ! -f wp-load.php ]; then
+    echo "-------------------------Telechargement de Wordpress------------------------------"
+    wp core download --allow-root --locale=fr_FR
+fi
+
+# Création de la configuration
+if [ ! -f /var/www/html/wp-config.php ]; then    
     wp config create \
         --dbname="${SQL_DATABASE}" \
         --dbuser="${SQL_USER}" \
@@ -20,7 +30,7 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
         --dbhost="mariadb" \
         --skip-check \
         --allow-root
-    
+
     wp core install \
         --url="https://${DOMAIN_NAME}" \
         --title="${WP_TITLE}" \
@@ -30,8 +40,8 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
         --skip-email \
         --allow-root
     
-    echo "Configuration de WordPress terminee !"
-
+    echo "--------------------Le fichier wp-config.php est configure--------------------"
+    
     wp user create \
         "${WP_USER2_LOGIN}" \
         "${WP_USER2_EMAIL}" \
@@ -39,12 +49,15 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
         --role=editor \
         --allow-root
 else
-    echo "WordPress est deja configure"
+    echo "-------------------Le fichier wp-config.php est deja existant-------------------------"
 fi
 
-chown -R www-data:www-data /var/www/wordpress
-chmod -R 755 /var/www/wordpress
-chmod -R 775 /var/www/wordpress/wp-content
+chown -R www-data:www-data /var/www/html
+chmod -R 755 /var/www/html
 
-echo "Demarrage de PHP-FPM..."
+if [ -d /var/www/html/wp-content ]; then
+    chmod -R 775 /var/www/html/wp-content
+fi
+
+echo "-------------------------EXEC PHP----------------------------"
 exec php-fpm8.2 -F --fpm-config /etc/php/8.2/fpm/php-fpm.conf

@@ -13,19 +13,6 @@ mysqld --user=mysql --datadir=/var/lib/mysql & #--skip-networking --skip-grant-t
 MYSQL_PID=$!
 
 sleep 3
-# for i in {1..30}; do
-#     if mysqladmin ping --silent 2>/dev/null; then
-#         echo "MariaDB est pret !"
-#         break
-#     fi
-#     echo "Tentative $i/30..."
-#     sleep 1
-# done
-
-# if ! mysqladmin ping --silent 2>/dev/null; then
-#     echo "ERREUR : MariaDB n'a pas demarrage correctement"
-#     exit 1
-# fi
 
 echo "Configuration de la base de donnees..."
 
