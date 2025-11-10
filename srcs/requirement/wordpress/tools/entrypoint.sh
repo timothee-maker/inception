@@ -1,9 +1,8 @@
 #!/bin/bash
 
-sleep 10
-echo "=== Debut de l'initialisation de WordPress ==="
+echo "----------------------------Debut de l'initialisation de WordPress-----------------------------"
 
-echo "En attente MariaDB..."
+echo "---------------------------En attente MariaDB-------------------------------------------------"
 
 # Vérifier MariaDB
 until mysqladmin ping -h mariadb -u"$SQL_USER" -p"$SQL_PASSWORD" --silent; do
@@ -11,7 +10,7 @@ until mysqladmin ping -h mariadb -u"$SQL_USER" -p"$SQL_PASSWORD" --silent; do
     sleep 3
 done
 
-echo "✅ MariaDB est pret"
+echo "----------------------------------✅ MariaDB est pret----------------------------------------------------------------------------"
 
 cd /var/www/html
 
@@ -21,7 +20,7 @@ if [ ! -f wp-load.php ]; then
     wp core download --allow-root --locale=fr_FR
 fi
 
-# Création de la configuration
+# Créer la configuration, remplir les cases avec le CLI de wp
 if [ ! -f /var/www/html/wp-config.php ]; then    
     wp config create \
         --dbname="${SQL_DATABASE}" \
@@ -59,5 +58,5 @@ if [ -d /var/www/html/wp-content ]; then
     chmod -R 775 /var/www/html/wp-content
 fi
 
-echo "-------------------------EXEC PHP----------------------------"
+echo "-------------------------✅ Demarrage de PHP-FPM----------------------------"
 exec php-fpm8.2 -F --fpm-config /etc/php/8.2/fpm/php-fpm.conf
