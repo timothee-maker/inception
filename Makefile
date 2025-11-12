@@ -25,8 +25,8 @@ status:
 
 fclean:
 	$(COMPOSE) down -v
-	rm -rf $(VOLUME)
-#	docker run --rm -v /home/tnolent/data:/data alpine sh -c "rm -rf /data/*"
+#	rm -rf $(VOLUME)
+	docker run --rm -v /home/tnolent/data:/data alpine sh -c "rm -rf /data/*"
 	docker system prune -af --volumes
 
 re: fclean all
