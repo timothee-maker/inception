@@ -4,7 +4,7 @@ echo "----------------------------Debut de l'initialisation de WordPress--------
 
 echo "---------------------------En attente MariaDB-------------------------------------------------"
 
-# Vérifier MariaDB
+# Vérifier si le conteneur  MariaDB a ete cree
 until mysqladmin ping -h mariadb -u"$SQL_USER" -p"$SQL_PASSWORD" --silent; do
     echo "MariaDB is unavailable - sleeping"
     sleep 3
@@ -14,13 +14,13 @@ echo "----------------------------------✅ MariaDB est pret--------------------
 
 cd /var/www/html
 
-# Télécharger WordPress avec WP-CLI si pas déjà présent
+# Télécharger WordPress avec WP-CLI si pas déjà fait
 if [ ! -f wp-load.php ]; then
     echo "-------------------------Telechargement de Wordpress------------------------------"
     wp core download --allow-root --locale=fr_FR
 fi
 
-# Créer la configuration, remplir les cases avec le CLI de wp
+# Créer la configuration avec le CLI de wp
 if [ ! -f /var/www/html/wp-config.php ]; then    
     wp config create \
         --dbname="${SQL_DATABASE}" \
