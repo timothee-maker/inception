@@ -1,7 +1,7 @@
 services:
   nginx:
     build: ./requirement/nginx
-    container_name: nginx
+    container_name: c_nginx
     ports:
       - "443:443"
     restart: always
@@ -14,7 +14,7 @@ services:
 
   wordpress:
     build: ./requirement/wordpress
-    container_name: wordpress
+    container_name: c_wordpress
     restart: always
     volumes:
       - wp_files:/var/www/html
@@ -27,7 +27,7 @@ services:
 
   mariadb:
     build: ./requirement/mariadb/
-    container_name: mariadb
+    container_name: c_mariadb
     restart: always
     volumes:
       - mariadb_data:/var/lib/mysql
@@ -41,14 +41,16 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/tnolent/data/wp_files
+#      device: /home/tnolent/data/wp_files
+      device: $HOME/data/wp_files
       o: bind
 
   mariadb_data:
     driver: local
     driver_opts:
       type: none
-      device: /home/tnolent/data/mariadb_data
+#      device: /home/tnolent/data/mariadb_data
+      device: $HOME/data/mariadb_data
       o: bind
 
 networks:

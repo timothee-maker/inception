@@ -1,5 +1,6 @@
 COMPOSE = docker compose -f ./srcs/docker-compose.yml
-VOLUME = /home/tnolent/data /home/tnolent/data/wp_files /home/tnolent/data/mariadb_data
+#VOLUME = /home/tnolent/data /home/tnolent/data/wp_files /home/tnolent/data/mariadb_data
+VOLUME = $(HOME)/data $(HOME)/data/wp_files $(HOME)/data/mariadb_data
 all: up
 
 up:
@@ -7,7 +8,7 @@ up:
 	$(COMPOSE) up -d
 
 down:
-	$(COMPOSE) down --rmi all
+	$(COMPOSE) down
 
 stop:
 	$(COMPOSE) stop
@@ -15,18 +16,16 @@ stop:
 start:
 	$(COMPOSE) start
 
-build:
-	$(COMPOSE) build --no-cache
+clean :
+	$(COMPOSE) down -v --rmi all --volumes
 
-rebuild: down up
+rebuild: clean up
 
-status:
-	docker ps
+restart: stop start
 
-fclean:
-	$(COMPOSE) down -v
-#	rm -rf $(VOLUME)
-	docker run --rm -v /home/tnolent/data:/data alpine sh -c "rm -rf /data/*"
+fclean: clean
+#	sudo rm -rf $(VOLUME)
+#	docker run --rm -v $(HOME)/data:/data alpine sh -c "rm -rf /data/*"
 	docker system prune -af --volumes
 
 re: fclean all
