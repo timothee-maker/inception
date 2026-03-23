@@ -1,11 +1,11 @@
 COMPOSE = docker compose -f ./srcs/docker-compose.yml
-#VOLUME = /home/tnolent/data /home/tnolent/data/wp_files /home/tnolent/data/mariadb_data
-VOLUME = $(HOME)/data $(HOME)/data/wp_files $(HOME)/data/mariadb_data
+VOLUME = /home/tnolent/data /home/tnolent/data/wp_files /home/tnolent/data/mariadb_data
+#VOLUME = $(HOME)/data $(HOME)/data/wp_files $(HOME)/data/mariadb_data
 all: up
 
 up:
 	mkdir -p $(VOLUME)
-	$(COMPOSE) up -d
+	$(COMPOSE) up -d --pull never
 
 down:
 	$(COMPOSE) down
