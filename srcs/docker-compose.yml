@@ -2,6 +2,7 @@ services:
   nginx:
     build: ./requirement/nginx
     container_name: c_nginx
+    image: nginx
     ports:
       - "443:443"
     restart: always
@@ -15,6 +16,7 @@ services:
   wordpress:
     build: ./requirement/wordpress
     container_name: c_wordpress
+    image: wordpress
     restart: always
     volumes:
       - wp_files:/var/www/html
@@ -28,6 +30,7 @@ services:
   mariadb:
     build: ./requirement/mariadb/
     container_name: c_mariadb
+    image: mariadb
     restart: always
     volumes:
       - mariadb_data:/var/lib/mysql
