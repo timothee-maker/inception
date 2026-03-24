@@ -60,19 +60,15 @@ docker logs c_mariadb
 docker exec -it c_mariadb bash
 docker exec -it c_wordpress bash
 
-# Verify that mariadb respond
-docker exec -it c_mariadb mysql -u root -p
+# Check Posts
+source srcs/.env
+docker exec -it c_mariadb mysql -u root -p${SQL_ROOT_PASSWORD} wordpress -e "SELECT ID, post_title, post_status FROM wp_posts WHERE post_type='post';"
 
-# Check mariadb data base
-docker exec -it c_mariadb mysql -u $SQL_USER -p$SQL_PASSWORD $SQL_DATABASE
-SHOW DATABASES;
+# Check comments
+docker exec -it c_mariadb mysql -u root -p${SQL_ROOT_PASSWORD} wordpress -e "SELECT comment_author, comment_content FROM wp_comments;"
 
-# Vérifier les utilisateurs
-SELECT User, Host FROM mysql.user;
-
-# Se connecter à la base WordPress
-USE wordpress;
-SHOW TABLES;
+# Check users
+docker exec -it c_mariadb mysql -u root -p${SQL_ROOT_PASSWORD} wordpress -e "SELECT ID, user_login, user_email FROM wp_users;"
 
 
 # Verify that Wordpress respond
