@@ -29,7 +29,7 @@ The WordPress admin panel is available at:
 https://tnolent.42.fr/wp-admin
 ```
 
-> Your browser will warn you about the self-signed TLS certificate — this is expected. Click "Advanced" and then "Proceed anyway".
+Your browser will warn you about the self-signed TLS certificate — this is expected. Click "Advanced" and then "Proceed anyway".
 
 ### From inside the VM
 The VM has no graphical interface, but you can verify the site is running with:
