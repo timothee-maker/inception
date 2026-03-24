@@ -24,9 +24,9 @@ rebuild: clean up
 restart: stop start
 
 fclean: clean
+	docker system prune -af --volumes
 #	sudo rm -rf $(VOLUME)
 #	docker run --rm -v $(HOME)/data:/data alpine sh -c "rm -rf /data/*"
-	docker system prune -af --volumes
 
 re: fclean all
 

@@ -29,7 +29,8 @@ if [ ! -f /var/www/html/wp-config.php ]; then
         --dbhost="mariadb" \
         --skip-check \
         --allow-root
-
+    wp config set WP_HOME "https://${DOMAIN_NAME}" --allow-root
+    wp config set WP_SITEURL "https://${DOMAIN_NAME}" --allow-root
     wp core install \
         --url="https://${DOMAIN_NAME}" \
         --title="${WP_TITLE}" \
